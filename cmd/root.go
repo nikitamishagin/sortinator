@@ -98,10 +98,14 @@ Examples:
 			sortedIPs, dropped = sorter.Deduplicate(sortedIPs)
 		}
 
-		// Build output
-		var output strings.Builder
-		for _, ip := range sortedIPs {
-			output.WriteString(ip + "\n")
+		// Build YAML output
+		type IPOutput struct {
+			IPs []string `yaml:"ips"`
+		}
+		yamlOutput, err := yaml.Marshal(IPOutput{IPs: sortedIPs})
+		if err != nil {
+			log.Fatal().Err(err).Msg("failed to marshal output")
+			return err
 		}
 
 		// Verbose stats
@@ -114,14 +118,15 @@ Examples:
 		}
 
 		// Output
+		outputStr := string(yamlOutput)
 		if outputFile != "" {
-			if err := os.WriteFile(outputFile, []byte(output.String()), 0644); err != nil {
+			if err := os.WriteFile(outputFile, []byte(outputStr), 0644); err != nil {
 				log.Fatal().Err(err).Str("file", outputFile).Msg("failed to write output file")
 				return err
 			}
 			log.Info().Str("file", outputFile).Msg("output written to file")
 		} else {
-			fmt.Print(output.String())
+			fmt.Print(outputStr)
 		}
 
 		return nil

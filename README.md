@@ -33,10 +33,11 @@ ips:
 
 **Output**:
 
-```
-8.8.8.8
-10.0.0.1
-192.168.0.1
+```yaml
+ips:
+  - 8.8.8.8
+  - 10.0.0.1
+  - 192.168.0.1
 ```
 
 Invalid entries are skipped and logged as warnings.
@@ -58,5 +59,5 @@ Invalid entries are skipped and logged as warnings.
 ./bin/sortinator test.yaml -r -u -v
 
 # Write output to a file
-./bin/sortinator test.yaml -f output.txt
+./bin/sortinator test.yaml -f output.yaml
 ```
