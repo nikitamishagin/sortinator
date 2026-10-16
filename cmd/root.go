@@ -134,7 +134,7 @@ func init() {
 		Out:         os.Stderr,
 		TimeFormat:  "15:04:05",
 		FormatLevel: colorizeLevel,
-	})
+	}).With().Timestamp().Logger()
 
 	rootCmd.Flags().StringVarP(&outputFile, "file", "f", "", "write output to specified file")
 	rootCmd.Flags().BoolVarP(&reverse, "reverse", "r", false, "sort in descending order")
