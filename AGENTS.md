@@ -17,10 +17,10 @@ Go, cobra (CLI), yaml (parsing), zerolog (logging).
 
 ## Commands
 
-- Build: `go build -o sortinator .`
+- Build: `go build -o ./bin/sortinator .`
 - Test: `go test ./...`
 - Format and vet: `gofmt -l .` and `go vet ./...`
-- Try it: `./sortinator test.yaml`
+- Try it: `./bin/sortinator test.yaml`
 
 ## Behavior rules
 
