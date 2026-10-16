@@ -22,7 +22,7 @@ const (
 	ansiBold   = "\033[1m"
 )
 
-func colorizeLevel(level interface{}) string {
+func colorizeLevel(level any) string {
 	l, ok := level.(string)
 	if !ok {
 		return ""
