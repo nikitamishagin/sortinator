@@ -14,6 +14,33 @@ import (
 	"github.com/mishagin/sortinator/internal/validator"
 )
 
+const (
+	ansiReset  = "\033[0m"
+	ansiRed    = "\033[31m"
+	ansiYellow = "\033[33m"
+	ansiCyan   = "\033[36m"
+	ansiBold   = "\033[1m"
+)
+
+func colorizeLevel(level interface{}) string {
+	l, ok := level.(string)
+	if !ok {
+		return ""
+	}
+	var color string
+	switch l {
+	case "ERR", "FAT", "PAN":
+		color = ansiRed
+	case "WRN":
+		color = ansiYellow
+	case "INF":
+		color = ansiCyan
+	default:
+		return l
+	}
+	return ansiBold + color + strings.ToUpper(l) + ansiReset
+}
+
 var (
 	version    = "dev"
 	outputFile string
@@ -103,7 +130,11 @@ Examples:
 
 func init() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	log.Logger = zerolog.New(zerolog.ConsoleWriter{
+		Out:         os.Stderr,
+		TimeFormat:  "15:04:05",
+		FormatLevel: colorizeLevel,
+	})
 
 	rootCmd.Flags().StringVarP(&outputFile, "file", "f", "", "write output to specified file")
 	rootCmd.Flags().BoolVarP(&reverse, "reverse", "r", false, "sort in descending order")
